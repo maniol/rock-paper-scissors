@@ -1,10 +1,9 @@
 'use strict';
 
 
-
+/*aux functions*/
 var getComputerMove = function (){
-	var randomResult=Math.floor((Math.random() * 3) + 1);
-	console.log(randomResult);
+	var randomResult = Math.floor((Math.random() * 3) + 1);
 	switch(randomResult) {
 		case 1:
 			return "paper";
@@ -20,6 +19,8 @@ var publishResults = function(draw, userWinner, userMove, computerMove) {
 	else if (userWinner) {output.insertAdjacentHTML('afterend',"You WIN! You played "+userMove+" and computer played "+computerMove+"<br>");}
   else { output.insertAdjacentHTML('afterend',"You LOSE! You played "+userMove+" and computer played "+computerMove+"<br>");}
 }
+
+/*main*/
 var playerMove = function(move) {
 	var output = document.getElementById('output');
 	var userWinner = false;
@@ -43,6 +44,8 @@ var playerMove = function(move) {
   	}
   publishResults(draw, userWinner, move, computerMove);
 }
+
+/*event listeners*/
 
 var buttonRock = document.getElementById("rock");
 var buttonPaper = document.getElementById("paper");
