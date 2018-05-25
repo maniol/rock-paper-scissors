@@ -21,12 +21,10 @@ var publishResults = function(draw, userWinner, userMove, computerMove) {
   else { output.insertAdjacentHTML('afterend',"You LOSE! You played "+userMove+" and computer played "+computerMove+"<br>");}
 }
 var playerMove = function(move) {
-	console.log(move);
 	var output = document.getElementById('output');
 	var userWinner = false;
 	var draw = false;
 	var computerMove =  getComputerMove();
-	console.log(computerMove);
 	switch(computerMove) {
     case 'paper':
   		if (move == 'paper') { draw = true;}
@@ -51,6 +49,6 @@ var buttonPaper = document.getElementById("paper");
 var buttonScissors = document.getElementById("scissors");
 
 
-buttonRock.addEventListener('click', playerMove('rock'));
-buttonPaper.addEventListener('click', playerMove('paper'));
-buttonScissors.addEventListener('click', playerMove('scissors'));
+buttonRock.addEventListener('click', function () { playerMove('rock') });
+buttonPaper.addEventListener('click', function () { playerMove('paper') });
+buttonScissors.addEventListener('click', function () { playerMove('scissors') });
