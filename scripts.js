@@ -15,14 +15,14 @@ var getComputerMove = function (){
 }
 
 var publishResults = function(draw, userWinner, userMove, computerMove) {
-	if (draw) { output.insertAdjacentHTML('afterend',"It's a DRAW!<br>");}
-	else if (userWinner) {output.insertAdjacentHTML('afterend',"You WIN! You played "+userMove+" and computer played "+computerMove+"<br>");}
-  else { output.insertAdjacentHTML('afterend',"You LOSE! You played "+userMove+" and computer played "+computerMove+"<br>");}
+	var output = document.getElementById('output');
+	if (draw) { output.insertAdjacentHTML('afterbegin',"It's a DRAW!<br>");}
+	else if (userWinner) {output.insertAdjacentHTML('afterbegin',"You WIN! You played "+userMove+" and computer played "+computerMove+"<br>");}
+  else { output.insertAdjacentHTML('afterbegin',"You LOSE! You played "+userMove+" and computer played "+computerMove+"<br>");}
 }
 
 /*main*/
 var playerMove = function(move) {
-	var output = document.getElementById('output');
 	var userWinner = false;
 	var draw = false;
 	var computerMove =  getComputerMove();
