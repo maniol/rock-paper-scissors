@@ -2,16 +2,20 @@
 <html>
 	<head>
 	  <title>Rock Paper Scissors</title>
+	  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet">
+	  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
+		<button id="newGame" onclick="promptNewGame()">new game</button>
+		<div id="roundCounter"></div>
 		<div class="buttons">
-			<button id="rock">rock</button>
-			<button id="paper">paper</button>
-			<button id="scissors">scissors</button>
+			<button id="rock"><i class="far fa-hand-rock"></i></button>
+			<button id="paper"><i class="far fa-hand-paper"></i></button>
+			<button id="scissors"><i class="far fa-hand-scissors"></i></button>
 		</div>
-		<div id="output">
-		</div>
+		<div id="output"></div>
+		<div id="result"></div>
 		<script src="scripts.js"></script>
 	</body>
 </html>
