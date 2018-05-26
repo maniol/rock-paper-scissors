@@ -1,12 +1,13 @@
 'use strict';
 
-/*global variables*/
+/*global variables - I put them here because different funcions need access to them*/
 var finalResultUser = 0;
 var finalResultComputer = 0;
 var maxRounds = 0;
 var roundsCompleted = 0;
 var result = document.getElementById('result');
 var output = document.getElementById('output');
+
 /*aux functions*/
 var getComputerMove = function (){
 	var randomResult = Math.floor((Math.random() * 3) + 1);
@@ -20,17 +21,24 @@ var getComputerMove = function (){
 	}
 }
 
+var disableGameButtons = function (bool) {
+	document.getElementById("rock").disabled = bool;
+	document.getElementById("paper").disabled = bool;
+	document.getElementById("scissors").disabled = bool;
+}
+
+
 var publishResults = function(draw, userWinner, userMove, computerMove, gameOver) {
 	if (draw) { output.innerHTML = "It's a DRAW!<br>";}
 	else if (userWinner) {
-		output.innerHTML = "You WIN! You played "+userMove+" and computer played "+computerMove+"<br>";
+		output.innerHTML = "You WIN! You played " + userMove + " and computer played " + computerMove + "<br>";
 		finalResultUser += 1;
 	}
   else {
-  	output.innerHTML = "You LOSE! You played "+userMove+" and computer played "+computerMove+"<br>";
+  	output.innerHTML = "You LOSE! You played " + userMove + " and computer played " + computerMove + "<br>";
   	finalResultComputer += 1;
   }
-  result.innerHTML = finalResultUser+" : "+finalResultComputer+"<br>";
+  result.innerHTML = finalResultUser + " : " + finalResultComputer + "<br>";
   if (gameOver){
   	if (finalResultUser > finalResultComputer) {
   		result.insertAdjacentHTML('beforeend',"YOU WON THE ENTIRE GAME!<br>");
@@ -38,29 +46,38 @@ var publishResults = function(draw, userWinner, userMove, computerMove, gameOver
   	else if (finalResultUser < finalResultComputer) {
   		result.insertAdjacentHTML('beforeend',"YOU LOSER!<br>");
   	}
-		else {result.insertAdjacentHTML('beforeend', "YOU'RE BOTH WINNERS! IT'S A DRAW<br>");}
+		else {
+			result.insertAdjacentHTML('beforeend', "YOU'RE BOTH WINNERS! IT'S A DRAW!<br>");
+		}
 		result.insertAdjacentHTML('beforeend',"Game over, please press the new game button!");
+		disableGameButtons(true);
   }
 }
-/*new game prompt function*/
+
+/*new game button handler*/
 function promptNewGame() {
-	document.getElementById("rock").disabled = false;
-	document.getElementById("paper").disabled = false;
-	document.getElementById("scissors").disabled = false;
 	result.innerHTML = "";
 	output.innerHTML = "";
 	var roundCounter = document.getElementById('roundCounter');
 	maxRounds = prompt("Please provide the number of rounds in the match");
 	console.log(maxRounds);
-	if (maxRounds === null)
-	{
-		roundCounter.innerHTML = "Please press the new game button!";
-		document.getElementById("rock").disabled = true;
-		document.getElementById("paper").disabled = true;
-		document.getElementById("scissors").disabled = true;
+	if (maxRounds === null) {
+		disableGameButtons(true);
+		roundCounter.innerHTML = "Please press the new game button and choose the number of rounds!";
 	}
-	else { roundCounter.innerHTML = "This match has "+maxRounds+" rounds!"; }
+	else if (maxRounds === "") {
+		disableGameButtons(true);
+		roundCounter.innerHTML = "Please press the new game button and choose the number of rounds!";
+	}
+	else if (isNaN(maxRounds)){
+		disableGameButtons(true);
+		roundCounter.innerHTML = "Invalid input! Please provide a number.";
+	}
+	else {
+		roundCounter.innerHTML = "This match has " + maxRounds + " rounds!";
+	}
 }
+
 /*main*/
 var playerMove = function(move) {
 	var userWinner = false;
@@ -84,19 +101,13 @@ var playerMove = function(move) {
 	  	else { userWinner = false;}
 	  }
 	roundsCompleted += 1;
-	console.log(roundsCompleted);
-	console.log(maxRounds);
 	if (roundsCompleted == maxRounds)
 	{
-
 		gameOver = true;
 		roundsCompleted=0;
-		document.getElementById("rock").disabled = true;
-		document.getElementById("paper").disabled = true;
-		document.getElementById("scissors").disabled = true;
-		publishResults(draw, userWinner, move, computerMove, gameOver);
+		disableGameButtons(true);
 	}
-	else { publishResults(draw, userWinner, move, computerMove, gameOver);}
+	publishResults(draw, userWinner, move, computerMove, gameOver);
 }
 
 /*event listeners*/
