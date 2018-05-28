@@ -60,7 +60,6 @@ function promptNewGame() {
 	output.innerHTML = "";
 	var roundCounter = document.getElementById('roundCounter');
 	maxRounds = prompt("Please provide the number of rounds in the match");
-	console.log(maxRounds);
 	if (maxRounds === null) {
 		disableGameButtons(true);
 		roundCounter.innerHTML = "Please press the new game button and choose the number of rounds!";
@@ -75,6 +74,9 @@ function promptNewGame() {
 	}
 	else {
 		roundCounter.innerHTML = "This match has " + maxRounds + " rounds!";
+		finalResultComputer=0;
+		finalResultComputer=0;
+		disableGameButtons(false);
 	}
 }
 
@@ -100,7 +102,9 @@ var playerMove = function(move) {
 	  	else if (move == 'stone') {userWinner = true;}
 	  	else { userWinner = false;}
 	  }
-	roundsCompleted += 1;
+	if(!draw) {
+		roundsCompleted += 1;
+	}
 	if (roundsCompleted == maxRounds)
 	{
 		gameOver = true;
