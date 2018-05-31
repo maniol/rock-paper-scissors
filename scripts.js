@@ -86,8 +86,8 @@ var playerMove = function(playerMove) {
 var buttonRock = document.getElementById('rock');
 var buttonPaper = document.getElementById('paper');
 var buttonScissors = document.getElementById('scissors');
-
-
-buttonRock.addEventListener('click', function () { playerMove('rock') });
-buttonPaper.addEventListener('click', function () { playerMove('paper') });
-buttonScissors.addEventListener('click', function () { playerMove('scissors') });
+var buttonsAll = document.getElementsByClassName('player-move');
+for (var i = 0; i < buttonsAll.length; i++) { // why it doesn't work (for (var btn in buttons))
+	var move = buttonsAll[i].getAttribute('id');
+	buttonsAll[i].addEventListener('click', function () { playerMove(move) });
+};
