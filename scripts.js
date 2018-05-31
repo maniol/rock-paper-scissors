@@ -1,12 +1,27 @@
 'use strict';
 
-/*global variables - I put them here because different funcions need access to them*/
-var finalResultPlayer = 0;
-var finalResultComputer = 0;
-var maxRounds = 0;
-var roundsCompleted = 0;
-var result = document.getElementById('result');
+/*event listeners*/
+
+var buttonRock = document.getElementById('rock');
+var buttonPaper = document.getElementById('paper');
+var buttonScissors = document.getElementById('scissors');
+var buttonsAll = document.getElementsByClassName('player-move');
+for (var i = 0; i < buttonsAll.length; i++) { // why it doesn't work (for (var btn in buttons))
+	var move = buttonsAll[i].getAttribute('id');
+	buttonsAll[i].addEventListener('click', function () { playerMove(move) });
+};
+
+var result =  document.getElementById('result');
 var output = document.getElementById('output');
+
+
+/*global variables - I put them here because different funcions need access to them*/
+var params =  {
+	finalResultPlayer: 0,
+	finalResultComputer: 0,
+	maxRounds: 0,
+	roundsCompleted: 0
+};
 
 /*aux functions*/
 var getComputerMove = function () {
@@ -25,26 +40,26 @@ var publishResults = function(winnerIs, computerMove, playerMove) {
 		output.innerHTML = 'It\'s a DRAW!<br>';
 	} else if (winnerIs === 'player') {
 		output.innerHTML = 'You WIN! You played ' + playerMove + ' and computer played ' + computerMove + '<br>';
-		finalResultPlayer++;
-		roundsCompleted++;
+		params.finalResultPlayer++;
+		params.roundsCompleted++;
 	} else {
 		output.innerHTML = 'You LOSE! You played ' + playerMove + ' and computer played ' + computerMove + '<br>';
-		finalResultComputer++;
-		roundsCompleted++;
+		params.finalResultComputer++;
+		params.roundsCompleted++;
 	}
-	result.innerHTML = finalResultPlayer + ' : ' + finalResultComputer + '<br>';
-	if (roundsCompleted == maxRounds) {
+	result.innerHTML = params.finalResultPlayer + ' : ' + params.finalResultComputer + '<br>';
+	if (params.roundsCompleted == params.maxRounds) {
 		disableGameButtons(true);
-		if (finalResultPlayer > finalResultComputer) {
+		if (params.finalResultPlayer > params.finalResultComputer) {
 			result.insertAdjacentHTML('beforeend','YOU WON THE ENTIRE GAME!<br>');
-		} else if (finalResultPlayer < finalResultComputer) {
+		} else if (params.finalResultPlayer < params.finalResultComputer) {
 			result.insertAdjacentHTML('beforeend','YOU LOSER!<br>');
 		} else {
 			result.insertAdjacentHTML('beforeend', 'YOU\'RE BOTH WINNERS! IT\'S A DRAW!<br>');
 		}
-	roundsCompleted = 0;
-	finalResultComputer = 0;
-	finalResultPlayer = 0;
+	params.roundsCompleted = 0;
+	params.finalResultComputer = 0;
+	params.finalResultPlayer = 0;
 	result.insertAdjacentHTML('beforeend',"Game over, please press the new game button!");
 	}
 };
@@ -54,15 +69,15 @@ function promptNewGame() {
 	result.innerHTML = '';
 	output.innerHTML = '';
 	var roundCounter = document.getElementById('roundCounter');
-	maxRounds = prompt('Please provide the number of rounds in the match');
-	if (maxRounds === null || maxRounds === '') {
+	params.maxRounds = prompt('Please provide the number of rounds in the match');
+	if (params.maxRounds === null || params.maxRounds === '') {
 		disableGameButtons(true);
 		roundCounter.innerHTML = 'Please press the new game button and choose the number of rounds!';
-	} else if (isNaN(maxRounds)) {
+	} else if (isNaN(params.maxRounds)) {
 		disableGameButtons(true);
 		roundCounter.innerHTML = 'Invalid input! Please provide a number.';
 	} else {
-		roundCounter.innerHTML = 'This match has ' + maxRounds + ' rounds!';
+		roundCounter.innerHTML = 'This match has ' + params.maxRounds + ' rounds!';
 		disableGameButtons(false);
 	}
 };
@@ -81,13 +96,3 @@ var playerMove = function(playerMove) {
 	publishResults(winnerIs, playerMove, computerMove);
 };
 
-/*event listeners*/
-
-var buttonRock = document.getElementById('rock');
-var buttonPaper = document.getElementById('paper');
-var buttonScissors = document.getElementById('scissors');
-var buttonsAll = document.getElementsByClassName('player-move');
-for (var i = 0; i < buttonsAll.length; i++) { // why it doesn't work (for (var btn in buttons))
-	var move = buttonsAll[i].getAttribute('id');
-	buttonsAll[i].addEventListener('click', function () { playerMove(move) });
-};
