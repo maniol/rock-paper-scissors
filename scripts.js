@@ -24,6 +24,30 @@ var params =  {
 };
 
 /*aux functions*/
+
+var showModal = function(message) {
+	document.querySelector('#modal-overlay').classList.add('show');
+		/*event.preventDefault();
+		var allModals = document.querySelectorAll('.modal');*/
+		var modal = document.getElementById('modal-results');
+		/*for ( var i = 0; i < allModals.length; i++) { /*why for (modal in allModals) didnt work?
+			allModals[i].classList.remove('show');
+			}	*/
+		modal.classList.add('show');
+		modal.getElementsByTagName('p')[0].innerHTML = message;
+};
+
+var hideModal = function(event) {
+	event.preventDefault();
+	document.querySelector('#modal-overlay').classList.remove('show');
+	document.querySelector('.modal').classList.remove('show');
+};	
+	
+var closeButtons = document.querySelectorAll('.modal .close');
+	for (var i = 0; i < closeButtons.length; i++) {
+		closeButtons[i].addEventListener('click', hideModal);
+	};
+
 var getComputerMove = function () {
 	var possiblePicks = ['paper', 'rock', 'scissors'];
 	return possiblePicks[Math.floor(Math.random() * 3)];
@@ -51,11 +75,11 @@ var publishResults = function(winnerIs, computerMove, playerMove) {
 	if (params.roundsCompleted == params.maxRounds) {
 		disableGameButtons(true);
 		if (params.finalResultPlayer > params.finalResultComputer) {
-			result.insertAdjacentHTML('beforeend','YOU WON THE ENTIRE GAME!<br>');
+			showModal('YOU WON THE ENTIRE GAME!<br>');
 		} else if (params.finalResultPlayer < params.finalResultComputer) {
-			result.insertAdjacentHTML('beforeend','YOU LOSER!<br>');
+			showModal('YOU LOSER!<br>');
 		} else {
-			result.insertAdjacentHTML('beforeend', 'YOU\'RE BOTH WINNERS! IT\'S A DRAW!<br>');
+			showModal('YOU\'RE BOTH WINNERS! IT\'S A DRAW!<br>');
 		}
 	params.roundsCompleted = 0;
 	params.finalResultComputer = 0;
