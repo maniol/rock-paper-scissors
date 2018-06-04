@@ -11,6 +11,7 @@ var params =  {
 	finalResultPlayer: 0,
 	finalResultComputer: 0,
 	maxRounds: 0,
+	roundsWithWinner: 0,
 	roundsCompleted: 0,
 	progress: []
 };
@@ -96,6 +97,7 @@ var populateTable = function() {
 		var rowCells = tableRows[i].querySelectorAll('td');
 		for (var j = 0; j < rowCells.length; j ++) {
 			for ( var k = 0; k < keyList.length; k++) {
+				console.log(params.progress[i])
 				rowCells[j].innerHTML = params.progress[i][keyList[k]];
 				break;
 			}
@@ -106,18 +108,21 @@ var populateTable = function() {
 var publishResults = function(winnerIs, computerMove, playerMove) {
 	if (winnerIs === 'none') {
 		output.innerHTML = 'It\'s a DRAW!<br>';
+		params.roundsCompleted++;
 	} else if (winnerIs === 'player') {
 		output.innerHTML = 'You WIN! You played ' + playerMove + ' and computer played ' + computerMove + '<br>';
 		params.finalResultPlayer++;
+		params.roundsWithWinner++;
 		params.roundsCompleted++;
 	} else {
 		output.innerHTML = 'You LOSE! You played ' + playerMove + ' and computer played ' + computerMove + '<br>';
 		params.finalResultComputer++;
+		params.roundsWithWinner++;
 		params.roundsCompleted++;
 	}
 	updateTable(playerMove, computerMove, winnerIs);
 	result.innerHTML = params.finalResultPlayer + ' : ' + params.finalResultComputer + '<br>';
-	if (params.roundsCompleted == params.maxRounds) {
+	if (params.roundsWithWinner == params.maxRounds) {
 		disableGameButtons(true);
 		generateTable();
 		populateTable()
@@ -128,6 +133,7 @@ var publishResults = function(winnerIs, computerMove, playerMove) {
 		} else {
 			showModal('YOU\'RE BOTH WINNERS! IT\'S A DRAW!<br>');
 		}
+	params.roundsWithWinner = 0;
 	params.roundsCompleted = 0;
 	params.finalResultComputer = 0;
 	params.finalResultPlayer = 0;
@@ -155,7 +161,6 @@ function promptNewGame() {
 
 /*main*/
 var handlePlayerMove = function(playerMove) {
-	console.log(playerMove);
 	var computerMove =  getComputerMove();
 	var winnerIs = 'player';
 	if (computerMove === 'scissors' && playerMove === 'paper' ||
@@ -165,7 +170,7 @@ var handlePlayerMove = function(playerMove) {
 	} else if (computerMove === playerMove) {
 		winnerIs = 'none';
 	}
-	publishResults(winnerIs, playerMove, computerMove);
+	publishResults(winnerIs, computerMove, playerMove);
 };
 
 /*event listeners*/
@@ -174,9 +179,8 @@ var buttonRock = document.getElementById('rock');
 var buttonPaper = document.getElementById('paper');
 var buttonScissors = document.getElementById('scissors');
 var buttonsAll = document.getElementsByClassName('player-move');
-for (var i = 0; i < buttonsAll.length; i++) {
-	var move = buttonsAll[i].getAttribute('data-move');
-	console.log(move);
-	buttonsAll[i].addEventListener('click', function() { handlePlayerMove(move) });
-};
 
+for (var i = 0; i < buttonsAll.length; i++) {
+	let move = buttonsAll[i].getAttribute('data-move');
+	buttonsAll[i].addEventListener('click', function() { handlePlayerMove(move) });
+}
