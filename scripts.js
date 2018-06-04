@@ -42,7 +42,6 @@ var closeButtons = document.querySelectorAll('.modal .close');
 
 var getComputerMove = function() {
 	var possiblePicks = ['paper', 'rock', 'scissors'];
-	console.log('getComputerMove',possiblePicks[Math.floor(Math.random() * 3)])
 	return possiblePicks[Math.floor(Math.random() * 3)];
 };
 
@@ -155,9 +154,9 @@ function promptNewGame() {
 };
 
 /*main*/
-var playerMove = function(playerMove) {
+var handlePlayerMove = function(playerMove) {
+	console.log(playerMove);
 	var computerMove =  getComputerMove();
-	console.log('player move',computerMove)
 	var winnerIs = 'player';
 	if (computerMove === 'scissors' && playerMove === 'paper' ||
 		  computerMove === 'rock' && playerMove === 'scissors' ||
@@ -177,6 +176,7 @@ var buttonScissors = document.getElementById('scissors');
 var buttonsAll = document.getElementsByClassName('player-move');
 for (var i = 0; i < buttonsAll.length; i++) {
 	var move = buttonsAll[i].getAttribute('data-move');
-	buttonsAll[i].addEventListener('click', function() { playerMove(move) });
+	console.log(move);
+	buttonsAll[i].addEventListener('click', function() { handlePlayerMove(move) });
 };
 
