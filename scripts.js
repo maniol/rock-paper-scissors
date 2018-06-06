@@ -8,6 +8,7 @@ var output = document.getElementById('output');
 
 /*global variables - I put them here because different funcions need access to them*/
 var params =  {
+	playerName: '',
 	finalResultPlayer: 0,
 	finalResultComputer: 0,
 	maxRounds: 0,
@@ -29,6 +30,12 @@ var showModal = function(message) {
 		modal.classList.add('show');
 		modal.getElementsByTagName('p')[0].innerHTML = message;
 };
+
+var showStartModal = function() {
+	document.querySelector('#modal-overlay').classList.add('show');
+	var modal = document.getElementById('modal-start');
+	modal.classList.add('show');
+}
 
 var hideModal = function(event) 	{
 	event.preventDefault();
@@ -97,7 +104,6 @@ var populateTable = function() {
 		var rowCells = tableRows[i].querySelectorAll('td');
 		for (var j = 0; j < rowCells.length; j ++) {
 			for ( var k = 0; k < keyList.length; k++) {
-				console.log(params.progress[i])
 				rowCells[j].innerHTML = params.progress[i][keyList[k]];
 				break;
 			}
@@ -142,17 +148,21 @@ var publishResults = function(winnerIs, computerMove, playerMove) {
 };
 
 /*new game button handler*/
-function promptNewGame() {
+function startNewGame() {
+	console.log('Magda');
 	result.innerHTML = '';
 	output.innerHTML = '';
 	var roundCounter = document.getElementById('roundCounter');
-	params.maxRounds = prompt('Please provide the number of rounds in the match');
+	params.playerName = document.getElementById('name').value;
+	params.maxRounds = document.getElementById('turns').value;
+	console.log("MAgda", params.playerName);
+	console.log(params.maxRounds);
 	if (params.maxRounds === null || params.maxRounds === '') {
 		disableGameButtons(true);
 		roundCounter.innerHTML = 'Please press the new game button and choose the number of rounds!';
 	} else if (isNaN(params.maxRounds)) {
 		disableGameButtons(true);
-		roundCounter.innerHTML = 'Invalid input! Please provide a number.';
+		roundCounter.innerHTML = 'Invalid input! Please provide a number equal or greater than 1.';
 	} else {
 		roundCounter.innerHTML = 'This match has ' + params.maxRounds + ' rounds!';
 		disableGameButtons(false);
