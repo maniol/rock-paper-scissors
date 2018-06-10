@@ -8,14 +8,14 @@
 	</head>
 	<body>
 		<button id="newGame" onclick="showStartModal()">new game</button>
-		<div class="overlay" id="modal-overlay">
+		<div class="overlay" id="modal-overlay-start">
 			<div class="modal" id="modal-start">
 				<a href="#" class="close">x</a>
 				<div class="content">
 					<form>
   					Name: <input type="text" id="name"><br>
   					Number of rounds: <input type="number" id="turns" min="1"><br>
-  					<button id="start" onclick="startNewGame()">Start</button>
+  					<button id="start" onclick="startNewGame(event)">Start</button>
 					</form>
 				</div>
 			</div>
@@ -28,10 +28,10 @@
 		</div>
 		<div id="output"></div>
 		<div id="result"></div>
-		<div class="overlay" id="modal-overlay">
+		<div class="overlay" id="modal-overlay-results">
 			<div class="modal" id="modal-results">
 				<a href="#" class="close">x</a>
-				<div class="content">
+				<div class="results">
 					<p></p>
 				</div>
 			</div>

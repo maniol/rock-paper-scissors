@@ -57,7 +57,7 @@ i {
 .modal.show {
 	display: block; }
 
-.modal .close {
+.close {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -66,12 +66,16 @@ i {
 	text-decoration: none;
 }
 
-.modal .content {
+.content, .results {
 	min-height: 30px;
 	padding: 20px 20px;
 	text-align: left;
 	font-weight: bold;
 	color: #0CBABA;
+}
+
+.results p {
+	text-align: center;
 }
 
 #start {
