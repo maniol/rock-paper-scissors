@@ -1,7 +1,7 @@
 'use strict';
 
 /*global variables*/
-var params =  {
+var params = {
 	playerName: '',
 	finalResultPlayer: 0,
 	finalResultComputer: 0,
@@ -11,9 +11,17 @@ var params =  {
 	progress: [] // for storing result tables after each round
 };
 
+var resultTableColNumber = 5;
 /*get elements*/
-var result =  document.getElementById('result');
+var result = document.getElementById('result');
 var output = document.getElementById('output');
+
+/*event listeners*/
+var buttonRock = document.getElementById('rock');
+var buttonPaper = document.getElementById('paper');
+var buttonScissors = document.getElementById('scissors');
+var buttonsAll = document.getElementsByClassName('player-move');
+var closeButtons = document.querySelectorAll('.modal .close');
 
 /*show and hide modals*/
 var showResultsModal = function(message) {
@@ -29,7 +37,7 @@ var showStartModal = function() {
 	modalStart.classList.add('show');
 };
 
-var hideModal = function() 	{
+var hideModal = function() {
 	var overlays = document.querySelectorAll('.overlay');
 	for (var i = 0; i < overlays.length; i++) {
 		overlays[i].classList.remove('show');
@@ -63,24 +71,24 @@ var updateTable = function(playerMove, computerMove, winnerIs) {
 
 var generateTable = function() {
 	var modalContent = document.querySelector('.results');
-	var tbl = document.createElement('table');
+	var table = document.createElement('table');
 	var trHeader = document.createElement('tr');
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < resultTableColNumber; i++) { // nie jasne jest co to jest  zadeklaruj consty np number of columns
 		var th = document.createElement('th');
 		trHeader.appendChild(th);
 	}
-	tbl.appendChild (trHeader);
-	var tbdy = document.createElement('tbody');
+	table.appendChild (trHeader);
+	var tableBody = document.createElement('tbody'); 
 	for (var i = 0; i < params.progress.length; i++) {
 		var tr = document.createElement('tr');
-			for (var j = 0; j < 5; j++) {
-				var td = document.createElement('td');
-				tr.appendChild(td)
-			}
-			tbdy.appendChild(tr);
+		for (var j = 0; j < 5; j++) {
+			var td = document.createElement('td');
+			tr.appendChild(td)
+		}
+		tableBody.appendChild(tr);
 	}
-	tbl.appendChild(tbdy);
-	modalContent.appendChild(tbl)
+	table.appendChild(tableBody);
+	modalContent.appendChild(table)
 };
 
 var deleteTable = function() {
@@ -93,7 +101,7 @@ var populateTable = function() {
 	var headerNames = ['Round No', 'Player Move', 'Comuter Move', 'Round Winner', 'Current Game Result'];
 	var headerCells = document.querySelectorAll('table tr th');
 	for (var i = 0; i <  headerCells.length; i++) {
-			headerCells[i].innerHTML = headerNames[i];
+		headerCells[i].innerHTML = headerNames[i];
 	}
 	var tableRows = document.querySelectorAll('tbody tr');
 	for ( var i = 0; i < tableRows.length; i++ ) {
@@ -115,7 +123,7 @@ var publishResults = function(winnerIs, computerMove, playerMove) {
 		output.innerHTML = 'It\'s a DRAW!<br>';
 		params.roundsCompleted++;
 	} else if (winnerIs === 'player') {
-		output.innerHTML = params.playerName + ' WINS ! ' + params.playerName + ' played ' + playerMove + ' and computer played ' + computerMove + '<br>';
+		output.innerHTML = params.playerName + ' WINS! ' + params.playerName + ' played ' + playerMove + ' and computer played ' + computerMove + '<br>';
 		params.finalResultPlayer++;
 		params.roundsWithWinner++;
 		params.roundsCompleted++;
@@ -157,12 +165,12 @@ var getComputerMove = function() {
 
 /*handle player move*/
 var handlePlayerMove = function(playerMove) {
-	var computerMove =  getComputerMove();
+	var computerMove = getComputerMove();
 	var winnerIs = 'player';
-	if (computerMove === 'scissors' && playerMove === 'paper' ||
-			computerMove === 'rock' && playerMove === 'scissors' ||
-			computerMove === 'paper' && playerMove === 'rock' ) {
-		winnerIs = 'computer';
+	if (computerMove === 'scissors' && playerMove === 'paper' || 
+		computerMove === 'rock' && playerMove === 'scissors' ||
+		computerMove === 'paper' && playerMove === 'rock' ) {
+			winnerIs = 'computer';
 	} else if (computerMove === playerMove) {
 		winnerIs = 'none';
 	}
@@ -181,7 +189,7 @@ function startNewGame(event) {
 	var roundCounter = document.getElementById('roundCounter');
 	params.playerName = document.getElementById('name').value;
 	params.maxRounds = document.getElementById('turns').value;
-	hideModal(event);
+	hideModal();
 	if (params.maxRounds === null || params.maxRounds === '') {
 		disableGameButtons(true);
 		roundCounter.innerHTML = 'Please press the new game button and choose the number of rounds!';
@@ -194,19 +202,11 @@ function startNewGame(event) {
 	}
 };
 
-
-/*event listeners*/
-var buttonRock = document.getElementById('rock');
-var buttonPaper = document.getElementById('paper');
-var buttonScissors = document.getElementById('scissors');
-var buttonsAll = document.getElementsByClassName('player-move');
-
 for (var i = 0; i < buttonsAll.length; i++) {
 	let move = buttonsAll[i].getAttribute('data-move');
 	buttonsAll[i].addEventListener('click', function() { handlePlayerMove(move) });
 }
 
-var closeButtons = document.querySelectorAll('.modal .close');
 for (var i = 0; i < closeButtons.length; i++) {
 	closeButtons[i].addEventListener('click', function() { hideModal() });
 }
